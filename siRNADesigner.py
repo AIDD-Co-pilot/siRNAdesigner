@@ -181,7 +181,7 @@ elif not (targetFasta is None):
     geneFasta = SeqIO.parse(targetFasta, 'fasta')
     geneFastaUnpacked = [(x.seq.upper(), x.id) for x in geneFasta]
     gene = [x[0] for x in geneFastaUnpacked]
-    outputPrefix = [outputPrefix[0]+"_"+x[1] for x in geneFastaUnpacked]
+    # outputPrefix = [outputPrefix[0]+"_"+x[1] for x in geneFastaUnpacked]
     del geneFastaUnpacked
 else:
     gene = [x.upper() for x in geneSequence]
@@ -209,7 +209,7 @@ for geneIndx in range(len(gene)):
                     break
             if shortRepeatsFree:
                 # 3rd filter (GC stretches)
-                match = re.match(r'GC{10}', candidate)
+                match = re.match(r'GC{10}', str(candidate))
                 if match:
                     continue
                 else:
@@ -314,5 +314,6 @@ for geneIndx in range(len(gene)):
 
     resultsFile = open(outputPrefix[geneIndx]+".csv", 'w')
     for cand in success:
+        cand = str(cand)
         resultsFile.write(",".join([str(success[cand][0]), str(success[cand][1]),
                                     cand, *[str(x) for x in success[cand][2:]]]) + '\n')
